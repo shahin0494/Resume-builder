@@ -50,7 +50,7 @@ function LandingPage() {
       </section >
 
 
-      <section className='tools p-5 bg-dark text-light'>
+      <section className=' p-5 bg-dark text-light'>
         {/* tools */}
         <h1 className='text-center'>TOOLS</h1>
         <div className='row align-items-center'>
