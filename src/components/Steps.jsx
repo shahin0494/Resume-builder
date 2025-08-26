@@ -6,47 +6,21 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import swal from 'sweetalert';
+import { addResumeAPI } from '../services/allApi';
+
 
 const steps = ['Basic Informations', 'Contact Details', 'Education Details', 'Work Experience', 'Skills & Certifications', 'Review and Submit'];
 
 
-function Steps() {
+function Steps({ userInput, setUserInput , setFinish}) {
 
   const skillSuggestionArray = ['NODE JS', 'EXPRESS', 'MONGODB', 'REACT', 'ANGULAR', 'NEXT JS', 'BOOTSTRAP', 'TAILWIND']
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   // state for storing user input data
-  const [userInput, setUserInput] = React.useState({
-    personalData:
-    {
-      name: '',
-      jobTitle: '',
-      location: '',
-      email: '',
-      phone: '',
-      github: '',
-      linkedin: '',
-      portfolio: '',
-    },
-    educationalData:
-    {
-      course: '',
-      college: '',
-      university: '',
-      year: '',
-    },
-    experience:
-    {
-      jobRole: '',
-      company: '',
-      joblocation: '',
-      duration: '',
-    },
-    skills: [],
 
-    summary: ''
-  })
   console.log(userInput);
 
   const userSkillRef = React.useRef()
@@ -237,6 +211,30 @@ function Steps() {
     }
   }
 
+  // addresume
+  const handleAddResume = async () => {
+    // alert("API called")
+    // api call
+    const { name, jobTitle, location } = userInput.personalData
+    if (name && jobTitle && location) {
+      try{
+        const result = await addResumeAPI(userInput)
+        console.log(result);
+        swal("Success!" , "Resume Added Successfully!" , "success");
+        setFinish(true)
+        }catch(err){
+          console.log(err);
+          swal("Error!" , "Resume Added Failed!" , "error")
+          setFinish(false)
+        }
+      
+    }
+    else {
+      alert("Fill the damn form")
+    }
+  }
+
+
   return (<Box sx={{ width: '100%' }}>
     <Stepper activeStep={activeStep}>
       {steps.map((label, index) => {
@@ -289,9 +287,14 @@ function Steps() {
               Skip
             </Button>
           )}
-          <Button onClick={handleNext}>
-            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-          </Button>
+
+          {
+            activeStep === steps.length - 1 ?
+              <Button onClick={handleAddResume}>Finish</Button> :
+              <Button onClick={handleNext}>Next</Button>
+
+          }
+
         </Box>
       </React.Fragment>
     )}

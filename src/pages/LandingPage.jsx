@@ -75,7 +75,7 @@ function LandingPage() {
       </section>
 
 
-      <section className='' style={{ width: '100%', height: '450px', backgroundImage: 'url(https://www.theindustry.fashion/wp-content/uploads/2024/08/Louis-Vuitton-Jude-Bellingham.jpg)', backgroundAttachment: 'fixed', backgroundPosition: 'top', backgroundSize: 'cover' }}></section>
+      <section className='' style={{ width: '100%', height: '450px', backgroundImage: 'url(https://www.kanakkupillai.com/learn/wp-content/uploads/2023/09/Holding-Company.jpg)', backgroundAttachment: 'fixed', backgroundPosition: 'top', backgroundSize: 'cover' }}></section>
 
       <section className='tools p-5 bg-dark text-light'>
         {/* tools */}
