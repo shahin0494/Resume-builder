@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Link } from 'react-router-dom';
@@ -16,10 +16,15 @@ import { addDownloadHistoryAPI } from '../services/allApi';
 
 
 
-function Preview({ userInput, finish }) {
+function Preview({ userInput, setUserInput, finish, resumeId }) {
     // console.log(userInput);
 
-    const [downloadStatus,setDownloadStatus] = useState(false)
+    
+    const [downloadStatus, setDownloadStatus] = useState(false)
+
+    // useEffect(()=>{
+    //     updateResume!={} && setUserInput(updateResume)
+    // },[updateResume])
 
     const downloadCv = async () => {
         // get element for taking screenshot
@@ -40,47 +45,52 @@ function Preview({ userInput, finish }) {
         console.log(timeStamp);
 
         // add download cv to json using api call
-        try{
-            const result = await addDownloadHistoryAPI({...userInput,imgURL,timeStamp})
+        try {
+            const result = await addDownloadHistoryAPI({ ...userInput, imgURL, timeStamp })
             console.log(result);
-            setDownloadStatus(true) 
+            setDownloadStatus(true)
         }
-        catch(err){
+        catch (err) {
             console.log(err);
-            
+
         }
-        
+
     }
 
 
 
     return (
-        < >
+        <>
             {
                 userInput.personalData.name != '' &&
                 <>
                     <div>
-                       {
-                       finish &&
-                       <Stack direction={'row'} sx={{ justifyContent: 'flex-end' }}>
-                            <Stack direction={'row'}>
-                                {/* download */}
-                                <button onClick={downloadCv} className='btn fs-2' style={{ color: 'green' }}><TfiDownload /></button>
-                                {
-                                    downloadStatus &&
-                                    <>
+                        {
+                            finish &&
+                            <Stack direction={'row'} sx={{ justifyContent: 'flex-end' }}>
+                                <Stack direction={'row'}>
+                                    {/* download */}
+                                    <button onClick={downloadCv} className='btn fs-2' style={{ color: 'green' }}><TfiDownload /></button>
                                     {/* edit */}
-                                    <div> <Edit /> </div>
-                                    {/* history */}
-                                    <Link to={'/history'}>
-                                        <button className='btn fs-1' style={{ color: 'black' }}><TbHistoryToggle /></button>
-                                    </Link>
-                                </>
-                                }
-                                {/* back */}
-                                <Link to={'/resume'} className='btn text-danger'>Back</Link>
-                            </Stack>
-                        </Stack>}
+                                    <div>
+                                        <Edit setUpdateUserInput={setUserInput} resumeId={resumeId} />
+                                    </div>
+                                    {
+
+                                        downloadStatus &&
+                                        <>
+
+
+                                            {/* history */}
+                                            <Link to={'/history'}>
+                                                <button className='btn fs-1' style={{ color: 'black' }}><TbHistoryToggle /></button>
+                                            </Link>
+                                        </>
+                                    }
+                                    {/* back */}
+                                    <Link to={'/resume'} className='btn text-danger'>Back</Link>
+                                </Stack>
+                            </Stack>}
                         <Box component="section" >
                             <Paper id="result" elevation={1} sx={{ my: 5, p: 2, textAlign: 'center' }}>
                                 <h2>{userInput.personalData.name}</h2>

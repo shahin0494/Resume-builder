@@ -13,7 +13,7 @@ import { addResumeAPI } from '../services/allApi';
 const steps = ['Basic Informations', 'Contact Details', 'Education Details', 'Work Experience', 'Skills & Certifications', 'Review and Submit'];
 
 
-function Steps({ userInput, setUserInput , setFinish}) {
+function Steps({ userInput, setUserInput , setFinish , setResumeId}) {
 
   const skillSuggestionArray = ['NODE JS', 'EXPRESS', 'MONGODB', 'REACT', 'ANGULAR', 'NEXT JS', 'BOOTSTRAP', 'TAILWIND']
 
@@ -203,7 +203,7 @@ function Steps({ userInput, setUserInput , setFinish}) {
           <div className='d-flex row p-3'>
             <TextField id="standard-basic" label="Write a short summary of yourself" multiline rows={4} defaultValue={"Enthusiastic and detail-oriented Junior Full-Stack Developer with practical experience building applications using the MERN (MongoDB, Express, React, Node.js) stack. Successfully developed a full-featured e-commerce project from conception to deployment. Seeking to apply my problem-solving abilities and technical skills to create exceptional user experiences."} variant="standard" onChange={e => setUserInput({
               ...userInput, summary: e.target.value
-            })} value={userInput.summary} />
+            })}  />
 
           </div>
         </div>
@@ -220,6 +220,8 @@ function Steps({ userInput, setUserInput , setFinish}) {
       try{
         const result = await addResumeAPI(userInput)
         console.log(result);
+        setResumeId(result?.data?.id)
+        console.log(result?.data?.id)
         swal("Success!" , "Resume Added Successfully!" , "success");
         setFinish(true)
         }catch(err){

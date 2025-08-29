@@ -6,7 +6,10 @@ export const addResumeAPI = async (resume) => {
     return await commonApi("POST", `${BASEURL}/all-resumes`, resume)
 }
 
-// editResumeAPI - PUT
+// editResumeAPI - PUT - called by edit component when update button is clicked
+export const editResumeApi = async(id,resume)=>{
+    return await commonApi("PUT",`${BASEURL}/all-resumes/${id}`,resume)
+}
 
 // addHistoryAPI - POST
 export const addDownloadHistoryAPI = async (resume) => {
@@ -20,4 +23,9 @@ export const getHistoryAPI = async ()=>{
 // deleteHistoryAPI - DELETE
 export const deleteHistoryAPI = async (id)=>{
     return await commonApi("DELETE",`${BASEURL}/history/${id}`,{})
+}
+
+// getREsumeAPI - GET called by edit component when its open in browser (useEffect)
+export const getAResumeAPI = async (id)=>{
+     return await commonApi("GET",`${BASEURL}/all-resumes/${id}`,{})
 }
